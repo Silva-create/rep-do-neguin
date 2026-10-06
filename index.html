@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FluxoFinance</title>
+    <style>
+      :root {
+        --bg: #0d1217;
+        --bg-strong: #151c23;
+        --card: rgba(21, 28, 35, 0.82);
+        --card-strong: #171f27;
+        --primary: #d6b06a;
+        --primary-dark: #b58a3d;
+        --primary-soft: rgba(214, 176, 106, 0.14);
+        --accent: #f2ddae;
+        --text: #edf3f7;
+        --muted: #a9b6c0;
+        --danger: #ff7a7a;
+        --success: #6dd3a3;
+        --border: rgba(214, 176, 106, 0.18);
+        --shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(214, 176, 106, 0.18), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(144, 164, 184, 0.12), transparent 30%),
+          linear-gradient(135deg, #090d12 0%, #121a22 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 28px 20px 60px;
+      }
+
+      .auth-shell {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 10px 0 30px;
+        color: var(--primary-dark);
+      }
+
+      .brand-logo {
+        width: 52px;
+        height: 52px;
+        display: block;
+        border-radius: 18px;
+        box-shadow: 0 18px 32px rgba(214, 176, 106, 0.2);
+        object-fit: cover;
+        border: 1px solid rgba(214, 176, 106, 0.32);
+      }
+
+      .brand-mark {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--primary), #f5e1a5);
+        color: #11191f;
+        font-size: 1.2rem;
+        font-weight: 900;
+        box-shadow: 0 18px 32px rgba(214, 176, 106, 0.35);
+      }
+
+      .brand strong {
+        font-size: 1.1rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        font-size: 1rem;
+      }
+
+      .auth-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 0.9fr;
+        gap: 26px;
+        margin-top: 10px;
+        align-items: stretch;
+      }
+
+      .panel {
+        background: linear-gradient(180deg, rgba(17, 23, 29, 0.98), rgba(12, 17, 22, 0.9));
+        border: 1px solid rgba(214, 176, 106, 0.12);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 20px 45px rgba(5, 10, 15, 0.38);
+        backdrop-filter: blur(12px);
+      }
+
+      .bank-card {
+        background: linear-gradient(135deg, rgba(214, 176, 106, 0.18), rgba(15, 21, 27, 0.94));
+        border: 1px solid rgba(214, 176, 106, 0.28);
+        border-radius: 24px;
+        padding: 22px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 22px 50px rgba(0,0,0,0.2);
+      }
+
+      .bank-card::before {
+        content: "";
+        position: absolute;
+        inset: -30% -10% auto auto;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 70%);
+      }
+
+      .panel-small {
+        min-height: 200px;
+      }
+
+      .login-panel {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(212, 175, 106, 0.28), transparent 70%);
+        pointer-events: none;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        color: var(--primary-dark);
+        font-size: 1.6rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      label {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--text);
+      }
+
+      input, select, button {
+        border-radius: 14px;
+        border: 1px solid rgba(18, 80, 57, 0.08);
+        padding: 13px 14px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      input, select {
+        background: rgba(9, 14, 18, 0.8);
+        color: var(--text);
+        border: 1px solid rgba(214, 176, 106, 0.18);
+      }
+
+      input:focus, select:focus {
+        outline: none;
+        border-color: rgba(31, 168, 100, 0.5);
+        box-shadow: 0 0 0 4px rgba(31, 168, 100, 0.12);
+      }
+
+      button {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #11191f;
+        border: none;
+        cursor: pointer;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        box-shadow: 0 18px 30px rgba(214, 176, 106, 0.26);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.02);
+      }
+
+      .message {
+        min-height: 20px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 2px;
+      }
+
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 22px;
+        padding: 18px 22px;
+      }
+
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .wallet-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(214, 176, 106, 0.12);
+        color: var(--primary);
+        border: 1px solid rgba(214, 176, 106, 0.18);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .mini-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .mini-stat {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(214, 176, 106, 0.12);
+        border-radius: 18px;
+        padding: 14px 16px;
+      }
+
+      .mini-stat-label {
+        display: block;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .mini-stat strong {
+        font-size: 1.2rem;
+      }
+
+      #perfilFoto {
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
+        object-fit: cover;
+        border: 3px solid rgba(31, 168, 100, 0.14);
+        background: linear-gradient(135deg, #ebfff5, #d9f6e7);
+      }
+
+      #perfilNome {
+        display: block;
+        font-weight: 800;
+        font-size: 1.05rem;
+      }
+
+      #perfilTurma {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .saldo-box {
+        background: linear-gradient(135deg, rgba(214, 176, 106, 0.16), rgba(9, 14, 18, 0.82));
+        border: 1px solid rgba(214, 176, 106, 0.16);
+        border-radius: 22px;
+        padding: 24px 20px;
+        margin-bottom: 22px;
+      }
+
+      .saldo-box span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      #saldoValor {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .positivo { color: var(--success); }
+      .negativo { color: var(--danger); }
+
+      #extratoContainer {
+        display: grid;
+        gap: 14px;
+      }
+
+      .lancamento-card {
+        background: linear-gradient(180deg, rgba(16, 22, 28, 0.96), rgba(11, 15, 19, 0.9));
+        border: 1px solid rgba(214, 176, 106, 0.12);
+        border-radius: 18px;
+        padding: 16px 18px;
+        display: grid;
+        gap: 8px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        color: var(--text);
+      }
+
+      .lancamento-desc {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1.02rem;
+      }
+
+      .lancamento-data {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .lancamento-valor {
+        font-weight: 800;
+        font-size: 1.05rem;
+      }
+
+      .receita { color: var(--success); }
+      .despesa { color: var(--danger); }
+
+      .lancamento-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag-badge {
+        background: linear-gradient(135deg, var(--primary-soft), rgba(212, 175, 106, 0.16));
+        color: var(--primary-dark);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .btn-sair {
+        background: rgba(18, 61, 44, 0.06);
+        color: var(--text);
+        box-shadow: none;
+        border: 1px solid rgba(18, 61, 44, 0.08);
+      }
+
+      .btn-sair:hover {
+        background: rgba(18, 61, 44, 0.12);
+      }
+
+      .auth-secondary {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .small-card {
+        background: linear-gradient(135deg, rgba(21, 28, 35, 0.94), rgba(14, 19, 24, 0.88));
+        border: 1px solid rgba(214, 176, 106, 0.15);
+        border-radius: 22px;
+        padding: 22px;
+      }
+
+      .muted-text {
+        color: var(--muted);
+        font-size: 0.96rem;
+        line-height: 1.6;
+      }
+
+      .link-button {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid rgba(214, 176, 106, 0.28);
+        box-shadow: none;
+        padding: 12px 16px;
+      }
+
+      .link-button:hover {
+        background: rgba(214, 176, 106, 0.08);
+      }
+
+      .cadastro-panel {
+        display: none;
+        animation: fadeIn 0.25s ease;
+      }
+
+      .cadastro-panel.visible {
+        display: block;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 22px;
+        margin-top: 20px;
+      }
+
+      .chart-card {
+        padding: 18px 18px 14px;
+      }
+
+      .chart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .chart-header h3,
+      .section-head h3 {
+        margin: 0;
+        font-size: 1rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--primary-dark);
+      }
+
+      .chart-bars {
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        height: 160px;
+        padding: 12px 8px 0;
+      }
+
+      .chart-bar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+        gap: 10px;
+        height: 100%;
+        color: var(--muted);
+      }
+
+      .chart-bar span {
+        font-size: 0.72rem;
+      }
+
+      .bar-fill {
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+        background: linear-gradient(180deg, var(--primary), rgba(214, 176, 106, 0.25));
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      }
+
+      .card-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .virtual-card {
+        position: relative;
+        border-radius: 24px;
+        padding: 18px 18px 16px;
+        color: white;
+        overflow: hidden;
+        min-height: 120px;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        border: 1px solid rgba(214, 176, 106, 0.2);
+        background: linear-gradient(135deg, rgba(214, 176, 106, 0.34), rgba(20, 30, 36, 0.86));
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .virtual-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .virtual-card.active {
+        border-color: rgba(244, 214, 145, 0.95);
+        box-shadow: 0 18px 32px rgba(214, 176, 106, 0.18);
+      }
+
+      .virtual-card:nth-child(2) {
+        background: linear-gradient(135deg, rgba(82, 104, 124, 0.5), rgba(12, 19, 24, 0.88));
+      }
+
+      .virtual-card:nth-child(3) {
+        background: linear-gradient(135deg, rgba(59, 138, 98, 0.45), rgba(12, 19, 24, 0.88));
+      }
+
+      .selected-card-panel {
+        margin-top: 18px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .card-visual {
+        position: relative;
+        overflow: hidden;
+        min-height: 210px;
+        border-radius: 26px;
+        padding: 20px 20px 18px;
+        background: linear-gradient(135deg, rgba(214, 176, 106, 0.36), rgba(15, 21, 26, 0.94));
+        color: #fff;
+        box-shadow: 0 28px 50px rgba(0, 0, 0, 0.28);
+      }
+
+      .card-visual::before {
+        content: "";
+        position: absolute;
+        inset: -20% -10% auto auto;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 68%);
+      }
+
+      .card-top,
+      .card-bottom {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .card-brand {
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.92);
+      }
+
+      .card-chip {
+        width: 52px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.25));
+        border: 1px solid rgba(255,255,255,0.45);
+      }
+
+      .card-number {
+        position: relative;
+        z-index: 1;
+        margin-top: 54px;
+        font-size: clamp(1.5rem, 2vw, 2.15rem);
+        letter-spacing: 0.14em;
+        font-weight: 700;
+      }
+
+      .card-bottom {
+        margin-top: 22px;
+        align-items: end;
+      }
+
+      .card-bottom small {
+        display: block;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.68);
+      }
+
+      .card-bottom strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.98rem;
+      }
+
+      .card-meta {
+        display: grid;
+        gap: 10px;
+        padding: 14px 18px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(214, 176, 106, 0.12);
+      }
+
+      .card-meta-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .card-meta-row strong {
+        color: var(--text);
+      }
+
+      .virtual-card::before {
+        content: "";
+        position: absolute;
+        inset: -10% auto auto 52%;
+        width: 170px;
+        height: 170px;
+        background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%);
+      }
+
+      .virtual-card strong,
+      .virtual-card small,
+      .virtual-card span {
+        position: relative;
+        z-index: 1;
+        display: block;
+      }
+
+      .virtual-card strong {
+        font-size: 1.3rem;
+        margin-top: 20px;
+      }
+
+      .virtual-card small {
+        color: rgba(255,255,255,0.72);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+
+      .virtual-card span {
+        color: rgba(255,255,255,0.85);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 22px 0 12px;
+      }
+
+      .transfer-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        gap: 22px;
+      }
+
+      .transfer-summary {
+        display: grid;
+        gap: 12px;
+      }
+
+      .metric-box {
+        border-radius: 18px;
+        padding: 16px 18px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(214, 176, 106, 0.14);
+      }
+
+      .metric-box span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .metric-box strong {
+        font-size: 1.25rem;
+      }
+
+      .mini-tag {
+        display: inline-block;
+        background: rgba(214, 176, 106, 0.12);
+        border: 1px solid rgba(214, 176, 106, 0.2);
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .filter-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .filter-toolbar label {
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .filter-toolbar select {
+        min-width: 180px;
+      }
+
+      .category-chart {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(70px, 1fr));
+        gap: 10px;
+        margin-top: 18px;
+        align-items: end;
+        min-height: 150px;
+      }
+
+      .category-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+        gap: 8px;
+        height: 100%;
+      }
+
+      .category-bar-fill {
+        width: 100%;
+        min-height: 12px;
+        border-radius: 12px 12px 0 0;
+        background: linear-gradient(180deg, var(--primary), rgba(240, 191, 113, 0.24));
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      }
+
+      .category-bar span {
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+
+      .report-panel {
+        margin-top: 22px;
+      }
+
+      .report-panel h2 {
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+
+      .report-intro,
+      .report-period p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .report-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        margin-top: 20px;
+      }
+
+      .report-period + .report-period {
+        border-left: 1px solid var(--border);
+        padding-left: 24px;
+      }
+
+      .report-period h3 {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+
+      .report-period p {
+        margin: 6px 0 14px;
+        font-size: 1rem;
+      }
+
+      .report-values {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .report-values div {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .report-values dt {
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .report-values dd {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .report-period .report-note {
+        min-height: 3.2em;
+        margin-top: 14px;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .filter-chip {
+        background: rgba(255,255,255,0.02);
+        color: var(--muted);
+        border: 1px solid rgba(214, 176, 106, 0.16);
+        padding: 8px 12px;
+        box-shadow: none;
+      }
+
+      .filter-chip.active {
+        background: linear-gradient(135deg, rgba(214, 176, 106, 0.18), rgba(214, 176, 106, 0.06));
+        color: var(--primary);
+        border-color: rgba(214, 176, 106, 0.28);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 700px) {
+        .container {
+          padding: 18px 14px 40px;
+        }
+
+        .auth-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .panel {
+          border-radius: 18px;
+          padding: 18px;
+        }
+
+        .app-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .btn-sair {
+          width: 100%;
+        }
+
+        .report-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .report-period + .report-period {
+          border-left: 0;
+          border-top: 1px solid var(--border);
+          padding: 20px 0 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="brand" aria-label="Marca do FluxoFinance">
+        <img class="brand-logo" src="logo.svg" alt="Logo do FluxoFinance" />
+        <strong>FluxoFinance</strong>
+      </div>
+
+      <section id="telaAuth">
+        <div class="auth-shell">
+          <div class="auth-grid">
+            <div class="panel login-panel">
+              <h2>Login</h2>
+              <form id="formLogin">
+                <label for="loginUsuario">Usuário</label>
+                <input id="loginUsuario" name="usuario" type="text" placeholder="Seu usuário" />
+
+                <label for="loginSenha">Senha</label>
+                <input id="loginSenha" name="senha" type="password" placeholder="Sua senha" />
+
+                <button type="submit">Entrar</button>
+                <div id="loginMsg" class="message" aria-live="polite"></div>
+              </form>
+            </div>
+
+            <div class="auth-secondary">
+              <div class="panel panel-small small-card">
+                <h2>Controle seu fluxo</h2>
+                <p class="muted-text">Crie sua conta e comece a controlar gastos, cartões e orçamento com clareza.</p>
+                <button id="btnAbrirCadastro" class="link-button" type="button">Cadastrar</button>
+              </div>
+
+              <div id="painelCadastro" class="panel panel-small cadastro-panel">
+                <h2>Cadastro</h2>
+                <form id="formCadastro">
+                  <label for="cadNome">Nome</label>
+                  <input id="cadNome" name="nome" type="text" placeholder="Seu nome" />
+
+                  <label for="cadTurma">Turma</label>
+                  <input id="cadTurma" name="turma" type="text" placeholder="Ex.: 3A" />
+
+                  <label for="cadUsuario">Usuário</label>
+                  <input id="cadUsuario" name="usuario" type="text" placeholder="Digite um usuário" />
+
+                  <label for="cadSenha">Senha</label>
+                  <input id="cadSenha" name="senha" type="password" placeholder="Digite sua senha" />
+
+                  <button type="submit">Criar conta</button>
+                  <div id="cadMsg" class="message" aria-live="polite"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="telaApp" hidden>
+        <header class="app-header panel">
+          <div class="profile">
+            <img id="perfilFoto" src="" alt="Foto do usuário" />
+            <div>
+              <span id="perfilNome">Nome</span>
+              <span id="perfilTurma">Turma</span>
+            </div>
+          </div>
+
+          <div class="wallet-meta">
+            <span class="chip">Carteira pessoal</span>
+            <button id="btnSair" class="btn-sair" type="button">Sair</button>
+          </div>
+        </header>
+
+        <div class="panel bank-card">
+          <div class="chip">Dashboard financeiro</div>
+          <div class="mini-stat-grid">
+            <div class="mini-stat">
+              <span class="mini-stat-label">Receitas</span>
+              <strong>R$ 0,00</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-label">Despesas</span>
+              <strong>R$ 0,00</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-label">Meta</span>
+              <strong>82%</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="saldo-box">
+            <span>Saldo atual</span>
+            <strong id="saldoValor">R$ 0,00</strong>
+          </div>
+
+          <form id="formLancamento">
+            <label for="lancDescricao">Descrição</label>
+            <input id="lancDescricao" type="text" placeholder="Ex.: Salário, mercado, renda extra" />
+
+            <label for="lancValor">Valor</label>
+            <input id="lancValor" type="number" min="0.01" step="0.01" placeholder="0.00" />
+
+            <label for="lancTipo">Tipo</label>
+            <select id="lancTipo">
+              <option value="despesa">Despesa</option>
+              <option value="receita">Receita</option>
+            </select>
+
+            <label for="lancCartao">Cartão</label>
+            <select id="lancCartao">
+              <option value="Black">Black</option>
+              <option value="Travel">Travel</option>
+              <option value="Business">Business</option>
+            </select>
+
+            <label for="lancTags">Tags</label>
+            <input id="lancTags" type="text" placeholder="Ex.: alimentação, trabalho" />
+
+            <button type="submit">Adicionar lançamento</button>
+          </form>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel chart-card">
+            <div class="chart-header">
+              <h3>Fluxo do mês</h3>
+              <span class="mini-tag">+12,4% vs mês anterior</span>
+            </div>
+            <div class="chart-bars" aria-label="gráfico de desempenho financeiro">
+              <div class="chart-bar"><div class="bar-fill" style="height: 36%;"></div><span>Jan</span></div>
+              <div class="chart-bar"><div class="bar-fill" style="height: 52%;"></div><span>Fev</span></div>
+              <div class="chart-bar"><div class="bar-fill" style="height: 44%;"></div><span>Mar</span></div>
+              <div class="chart-bar"><div class="bar-fill" style="height: 76%;"></div><span>Abr</span></div>
+              <div class="chart-bar"><div class="bar-fill" style="height: 90%;"></div><span>Mai</span></div>
+              <div class="chart-bar"><div class="bar-fill" style="height: 68%;"></div><span>Jun</span></div>
+            </div>
+
+            <div class="chart-header" style="margin-top: 18px; margin-bottom: 10px;">
+              <h3>Categorias</h3>
+            </div>
+            <div id="categoriaChart" class="category-chart" aria-label="gráfico por categoria"></div>
+          </div>
+
+          <div class="panel">
+            <div class="chart-header">
+              <h3>Cartões</h3>
+              <span class="mini-tag">Carteiras</span>
+            </div>
+            <div class="card-stack">
+              <button class="virtual-card active" type="button" data-card="Black">
+                <small>Black</small>
+                <strong>•••• 2560</strong>
+                <span>Marcos Silva</span>
+              </button>
+              <button class="virtual-card" type="button" data-card="Travel">
+                <small>Travel</small>
+                <strong>•••• 8821</strong>
+                <span>Válido até 09/29</span>
+              </button>
+              <button class="virtual-card" type="button" data-card="Business">
+                <small>Business</small>
+                <strong>•••• 1034</strong>
+                <span>Uso imediato</span>
+              </button>
+            </div>
+
+            <div class="selected-card-panel">
+              <div class="card-visual" id="selectedCardVisual">
+                <div class="card-top">
+                  <span class="card-brand" id="cardBrand">Fluxo</span>
+                  <span class="card-chip" aria-label="chip do cartão"></span>
+                </div>
+                <div class="card-number" id="cardNumber">•••• 2560</div>
+                <div class="card-bottom">
+                  <div>
+                    <small>Titular</small>
+                    <strong id="cardHolder">Marcos Silva</strong>
+                  </div>
+                  <div>
+                    <small>Validade</small>
+                    <strong id="cardExpiry">09/29</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-meta">
+                <div class="card-meta-row">
+                  <span>Carteira</span>
+                  <strong id="cardType">Black</strong>
+                </div>
+                <div class="card-meta-row">
+                  <span>Status</span>
+                  <strong>Ativo</strong>
+                </div>
+                <div class="card-meta-row">
+                  <span>Limite</span>
+                  <strong>R$ 25.000,00</strong>
+                </div>
+                <div class="card-meta-row">
+                  <span>Gasto do mês</span>
+                  <strong id="cardSpent">R$ 0,00</strong>
+                </div>
+                <div class="card-meta-row">
+                  <span>Disponível para uso</span>
+                  <strong id="cardAvailable">R$ 25.000,00</strong>
+                </div>
+              </div>
+
+              <div class="card-meta" style="margin-top: 12px;">
+                <div class="card-meta-row">
+                  <span>Últimos gastos do cartão</span>
+                  <strong id="cardRecentLabel">Black</strong>
+                </div>
+                <div id="cardRecentList" class="transfer-summary"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel report-panel" aria-labelledby="relatoriosTitulo">
+          <h2 id="relatoriosTitulo">Relatórios da sua conta</h2>
+          <p class="report-intro">Veja quanto entrou, quanto saiu e compare com o período anterior. Considera todas as movimentações da conta.</p>
+          <div class="report-grid">
+            <article class="report-period" aria-labelledby="relatorioSemanaTitulo">
+              <h3 id="relatorioSemanaTitulo">Esta semana</h3>
+              <p id="relatorioSemanaPeriodo">Carregando período...</p>
+              <dl class="report-values">
+                <div><dt>Entrou</dt><dd id="relatorioSemanaReceitas">R$ 0,00</dd></div>
+                <div><dt>Saiu</dt><dd id="relatorioSemanaDespesas">R$ 0,00</dd></div>
+                <div><dt>Resultado</dt><dd id="relatorioSemanaSaldo">R$ 0,00</dd></div>
+              </dl>
+              <p id="relatorioSemanaComparacao" class="report-note" aria-live="polite"></p>
+            </article>
+            <article class="report-period" aria-labelledby="relatorioMesTitulo">
+              <h3 id="relatorioMesTitulo">Este mês</h3>
+              <p id="relatorioMesPeriodo">Carregando período...</p>
+              <dl class="report-values">
+                <div><dt>Entrou</dt><dd id="relatorioMesReceitas">R$ 0,00</dd></div>
+                <div><dt>Saiu</dt><dd id="relatorioMesDespesas">R$ 0,00</dd></div>
+                <div><dt>Resultado</dt><dd id="relatorioMesSaldo">R$ 0,00</dd></div>
+              </dl>
+              <p id="relatorioMesComparacao" class="report-note" aria-live="polite"></p>
+            </article>
+          </div>
+        </section>
+
+        <div class="section-head">
+          <h3>Resumo e metas</h3>
+        </div>
+
+        <div class="transfer-grid">
+          <div class="panel transfer-summary">
+            <div class="metric-box">
+              <span>Receitas</span>
+              <strong id="resumoReceitas">R$ 0,00</strong>
+            </div>
+            <div class="metric-box">
+              <span>Despesas</span>
+              <strong id="resumoDespesas">R$ 0,00</strong>
+            </div>
+            <div class="metric-box">
+              <span>Meta</span>
+              <strong id="resumoMeta">82%</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <h3>Extrato financeiro</h3>
+        </div>
+
+        <div class="panel">
+          <div class="filter-row">
+            <button class="filter-chip active" type="button" data-filter="all">Todos</button>
+            <button class="filter-chip" type="button" data-filter="receita">Receitas</button>
+            <button class="filter-chip" type="button" data-filter="despesa">Despesas</button>
+          </div>
+          <div class="filter-toolbar">
+            <label for="filtroMes">Mês</label>
+            <select id="filtroMes">
+              <option value="all">Todos</option>
+              <option value="0">Janeiro</option>
+              <option value="1">Fevereiro</option>
+              <option value="2">Março</option>
+              <option value="3">Abril</option>
+              <option value="4">Maio</option>
+              <option value="5">Junho</option>
+              <option value="6">Julho</option>
+              <option value="7">Agosto</option>
+              <option value="8">Setembro</option>
+              <option value="9">Outubro</option>
+              <option value="10">Novembro</option>
+              <option value="11">Dezembro</option>
+            </select>
+
+            <label for="filtroCartao">Cartão</label>
+            <select id="filtroCartao">
+              <option value="all">Todos os cartões</option>
+              <option value="Black">Black</option>
+              <option value="Travel">Travel</option>
+              <option value="Business">Business</option>
+            </select>
+          </div>
+          <div id="extratoContainer"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+    <script src="financapp.js"></script>
+  </body>
+</html>

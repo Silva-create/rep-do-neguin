@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": "demo-user-1",
+      "nome": "Demo User",
+      "turma": "Premium",
+      "usuario": "demo",
+      "senha": "123456",
+      "foto_url": ""
+    }
+  ],
+  "lancamentos": [
+    {
+      "id": "l1",
+      "autor_id": "demo-user-1",
+      "descricao": "Salário",
+      "valor": 4200,
+      "tipo": "receita",
+      "tags": [
+        "trabalho"
+      ],
+      "criado_em": "2026-10-06T13:46:20.267Z"
+    },
+    {
+      "id": "l2",
+      "autor_id": "demo-user-1",
+      "descricao": "Mercado",
+      "valor": 780,
+      "tipo": "despesa",
+      "tags": [
+        "alimentação"
+      ],
+      "criado_em": "2026-10-06T13:46:20.657Z"
+    },
+  ]
+}
